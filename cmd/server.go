@@ -21,8 +21,10 @@ func main() {
 		grpc.UnaryInterceptor(authInterceptor.Unary()),
 	)
 
+	authService := service.NewAuthenticationService()
 	postsService := service.NewPostServce()
-
+	
+	pb.RegisterAuthenticationServiceServer(grpcServer, authService)
 	pb.RegisterPostServiceServer(grpcServer, postsService)
 
 	log.Println("Serving at grpc://localhost:50051")

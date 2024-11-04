@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"log"
 	"strings"
 
 	"github.com/Jerinji2016/grpc-template/src/internal/keys"
@@ -27,6 +28,11 @@ func (a *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		handler grpc.UnaryHandler,
 	) (interface{}, error) {
 		claims, err := a.authorize(ctx)
+
+		if a.isPublidMethod(info.FullMethod) {
+			return handler(ctx, req)
+		}
+
 		if err != nil {
 			return nil, err
 		}
@@ -34,6 +40,12 @@ func (a *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		ctx = context.WithValue(ctx, keys.CLAIMS_KEY, claims)
 		return handler(ctx, req)
 	}
+}
+
+func (a *AuthInterceptor) isPublidMethod(fullMethod string) bool {
+	// FullMethod is in the format "/package.Service/Method"
+	log.Printf("full method %v", fullMethod)
+	return strings.HasPrefix(fullMethod, "/auth_api.AuthenticationService/Login")
 }
 
 func (a *AuthInterceptor) authorize(ctx context.Context) (jwt.MapClaims, error) {
