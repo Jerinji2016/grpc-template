@@ -3,6 +3,7 @@ module github.com/Jerinji2016/grpc-template
 go 1.23.2
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.1
 	google.golang.org/grpc v1.67.1
 	google.golang.org/protobuf v1.35.1
 )

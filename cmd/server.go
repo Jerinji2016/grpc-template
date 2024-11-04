@@ -4,6 +4,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/Jerinji2016/grpc-template/src/pkg/middleware"
 	"github.com/Jerinji2016/grpc-template/src/pkg/pb"
 	"github.com/Jerinji2016/grpc-template/src/pkg/service"
 	"google.golang.org/grpc"
@@ -15,7 +16,10 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
+	authInterceptor := middleware.NewAuthInterceptor()
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(authInterceptor.Unary()),
+	)
 
 	postsService := service.NewPostServce()
 

@@ -15,3 +15,11 @@ Template for gRPC backend project.
 3. Run `git mod tidy`
 
 4. Start serving with `go run cmd/server.go`.
+
+## Authentication
+
+JWT is used authentication and is defined in `pkg/auth/jwt.go`. To start add jwt dependency with:
+
+```sh
+go get github.com/golang-jwt/jwt/v4
+```
