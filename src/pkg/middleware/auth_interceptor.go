@@ -7,6 +7,7 @@ import (
 
 	"github.com/Jerinji2016/grpc-template/src/internal/keys"
 	"github.com/Jerinji2016/grpc-template/src/pkg/auth"
+	"github.com/Jerinji2016/grpc-template/src/pkg/logger"
 	"github.com/golang-jwt/jwt/v4"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -27,13 +28,15 @@ func (a *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
 	) (interface{}, error) {
-		claims, err := a.authorize(ctx)
+		logger.DebugLog("Received request for %s", info.FullMethod)
 
 		if a.isPublidMethod(info.FullMethod) {
 			return handler(ctx, req)
 		}
 
+		claims, err := a.authorize(ctx)
 		if err != nil {
+			logger.ErrorLog("Authorization Failed %s, %v", info.FullMethod, err)
 			return nil, err
 		}
 

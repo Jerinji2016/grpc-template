@@ -23,3 +23,27 @@ JWT is used authentication and is defined in `pkg/auth/jwt.go`. To start add jwt
 ```sh
 go get github.com/golang-jwt/jwt/v4
 ```
+
+## Logger
+
+Logger is implemented with logrus package. To start add logrus dependency with:
+
+```sh
+go get github.com/sirupsen/logrus
+```
+
+Use logger with:
+
+```go
+//  info log
+logger.infoLog("FYI %v!", info)
+
+//  debug log
+logger.DebugLog("Hello %v!", variable)
+
+//  error log
+logger.ErrorLog("Error: %v", err)
+
+//  warning log
+logger.WarnLog("Careful: %v", warning)
+```
