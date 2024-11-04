@@ -16,7 +16,7 @@ Template for gRPC backend project.
 
 4. Start serving with `go run cmd/server.go`.
 
-## Authentication
+## Authentication 🔑
 
 JWT is used authentication and is defined in `pkg/auth/jwt.go`. To start add jwt dependency with:
 
@@ -24,7 +24,7 @@ JWT is used authentication and is defined in `pkg/auth/jwt.go`. To start add jwt
 go get github.com/golang-jwt/jwt/v4
 ```
 
-## Logger
+## Logger 🪵
 
 Logger is implemented with logrus package. To start add logrus dependency with:
 
@@ -47,3 +47,13 @@ logger.ErrorLog("Error: %v", err)
 //  warning log
 logger.WarnLog("Careful: %v", warning)
 ```
+
+***
+
+## Up Next ⏭️
+
+- Environment files
+- Connecting to DB
+- Working with DB
+- Working with streams
+- Handling proto buffers for multi repo projects
