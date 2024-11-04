@@ -1,8 +1,8 @@
-# gRPC Template
+# gRPC Template 🚀
 
 Template for gRPC backend project.
 
-## Getting Started
+## Getting Started 🏁
 
 1. Clone project with
 
