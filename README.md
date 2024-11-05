@@ -14,7 +14,17 @@ Template for gRPC backend project.
 
 3. Run `git mod tidy`
 
-4. Start serving with `go run cmd/server.go`.
+4. Create a `.env` file with envorinment variables with schema below
+
+5. Start serving with `go run cmd/server.go`.
+
+## Environment Schema
+
+```dotenv
+PORT=50051
+
+JWT_SECRET=your_secret_key
+```
 
 ## Authentication 🔑
 

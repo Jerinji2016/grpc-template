@@ -1,22 +1,34 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
+	"os"
 
 	"github.com/Jerinji2016/grpc-template/src/pkg/logger"
 	"github.com/Jerinji2016/grpc-template/src/pkg/middleware"
 	"github.com/Jerinji2016/grpc-template/src/pkg/pb"
 	"github.com/Jerinji2016/grpc-template/src/pkg/service"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
-func main() {
+func init() {
 	logger.InitLogger()
 
-	listener, err := net.Listen("tcp", ":50051")
+	if err := godotenv.Load(); err != nil {
+		logger.FatalLog("No .env file found")
+	}
+}
+
+func main() {
+	port := os.Getenv("PORT")
+	address := fmt.Sprintf(":%s", port)
+
+	listener, err := net.Listen("tcp", address)
 	if err != nil {
-		log.Fatalf("Failed to listen: %v", err)
+		logger.FatalLog("Failed to listen: %v", err)
 	}
 
 	authInterceptor := middleware.NewAuthInterceptor()
@@ -26,11 +38,11 @@ func main() {
 
 	authService := service.NewAuthenticationService()
 	postsService := service.NewPostServce()
-	
+
 	pb.RegisterAuthenticationServiceServer(grpcServer, authService)
 	pb.RegisterPostServiceServer(grpcServer, postsService)
 
-	log.Println("Serving at grpc://localhost:50051")
+	logger.InfoLog("Serving at grpc://localhost%s", address)
 	if err := grpcServer.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

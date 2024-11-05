@@ -33,3 +33,8 @@ func WarnLog(format string, args ...interface{}) {
 	//	write to file or something else
 	log.Warnf(format, args...)
 }
+
+func FatalLog(format string, args ...interface{}) {
+	//	write to file or something else
+	log.Fatalf(format, args...)
+}
