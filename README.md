@@ -16,7 +16,7 @@ Template for gRPC backend project.
 
 4. Create a `.env` file with envorinment variables with schema below
 
-5. Start serving with `go run cmd/server.go`.
+5. Start serving with `go run src/cmd/server.go`.
 
 ## Environment Schema
 
@@ -28,7 +28,7 @@ JWT_SECRET=your_secret_key
 
 ## Authentication 🔑
 
-JWT is used authentication and is defined in `pkg/auth/jwt.go`. To start add jwt dependency with:
+JWT is used authentication and is defined in `src/pkg/auth/jwt.go`. To start add jwt dependency with:
 
 ```sh
 go get github.com/golang-jwt/jwt/v4
