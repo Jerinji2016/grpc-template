@@ -18,12 +18,18 @@ Template for gRPC backend project.
 
 5. Start serving with `go run src/cmd/server.go`.
 
-## Environment Schema
+## Environment Schema 🍁
 
 ```dotenv
 PORT=50051
 
 JWT_SECRET=your_secret_key
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=admin
+DB_PASSWORD=secret
+DB_NAME=grpc_sample
 ```
 
 ## Authentication 🔑
@@ -36,7 +42,7 @@ go get github.com/golang-jwt/jwt/v4
 
 ## Logger 🪵
 
-Logger is implemented with logrus package. To start add logrus dependency with:
+Logger is implemented with [logrus](https://pkg.go.dev/github.com/sirupsen/logrus) package. To start add logrus dependency with:
 
 ```sh
 go get github.com/sirupsen/logrus
@@ -59,6 +65,16 @@ logger.WarnLog("Careful: %v", warning)
 ```
 
 ***
+
+## Database 🗄️
+
+Database is implemented with [postgresql](https://www.postgresql.org/). Setup a local database with the credentials mentioned as per env sample.
+
+Start by installing the [pgx](https://pkg.go.dev/github.com/jackc/pgx/v5) dependency with:
+
+```sh
+go get github.com/jackc/pgx/v5
+```
 
 ## Up Next ⏭️
 

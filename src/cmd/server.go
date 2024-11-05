@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/Jerinji2016/grpc-template/src/internal/auth"
+	"github.com/Jerinji2016/grpc-template/src/internal/db"
 	"github.com/Jerinji2016/grpc-template/src/internal/service"
 	"github.com/Jerinji2016/grpc-template/src/pkg/logger"
 	"github.com/Jerinji2016/grpc-template/src/pkg/pb"
@@ -23,6 +24,9 @@ func init() {
 }
 
 func main() {
+	db.InitDB()
+	defer db.CloseDB()
+
 	port := os.Getenv("PORT")
 	address := fmt.Sprintf(":%s", port)
 
