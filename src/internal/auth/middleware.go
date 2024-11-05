@@ -1,18 +1,23 @@
-package middleware
+package auth
 
 import (
 	"context"
 	"log"
 	"strings"
 
-	"github.com/Jerinji2016/grpc-template/src/internal/keys"
-	"github.com/Jerinji2016/grpc-template/src/pkg/auth"
 	"github.com/Jerinji2016/grpc-template/src/pkg/logger"
 	"github.com/golang-jwt/jwt/v4"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+)
+
+type keyType string
+
+const (
+	CLAIMS_KEY        keyType = "claims-key"
+	AUTHORIZATION_KEY string  = "authorization"
 )
 
 type AuthInterceptor struct{}
@@ -40,7 +45,7 @@ func (a *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 			return nil, err
 		}
 
-		ctx = context.WithValue(ctx, keys.CLAIMS_KEY, claims)
+		ctx = context.WithValue(ctx, CLAIMS_KEY, claims)
 		return handler(ctx, req)
 	}
 }
@@ -57,7 +62,7 @@ func (a *AuthInterceptor) authorize(ctx context.Context) (jwt.MapClaims, error) 
 		return nil, status.Error(codes.Unauthenticated, "missing metadata")
 	}
 
-	tokens := md[keys.AUTHORIZATION_KEY]
+	tokens := md[AUTHORIZATION_KEY]
 	if len(tokens) == 0 || tokens[0] == "" {
 		return nil, status.Error(codes.Unauthenticated, "authorization token is missing")
 	}
@@ -65,7 +70,7 @@ func (a *AuthInterceptor) authorize(ctx context.Context) (jwt.MapClaims, error) 
 	tokenHeaders := tokens[0]
 	token := strings.Split(tokenHeaders, " ")[1]
 
-	claims, err := auth.ValidateToken(token)
+	claims, err := ValidateToken(token)
 	if err != nil {
 		return nil, status.Error(codes.Unauthenticated, "failed to extract claims")
 	}

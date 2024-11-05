@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"github.com/Jerinji2016/grpc-template/src/pkg/auth"
+	"github.com/Jerinji2016/grpc-template/src/internal/auth"
 	"github.com/Jerinji2016/grpc-template/src/pkg/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
