@@ -62,7 +62,6 @@ logger.WarnLog("Careful: %v", warning)
 
 ## Up Next ⏭️
 
-- Environment files
 - Connecting to DB
 - Working with DB
 - Working with streams
