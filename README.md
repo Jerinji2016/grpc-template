@@ -77,6 +77,15 @@ go get -u gorm.io/gorm
 go get -u gorm.io/driver/postgres
 ```
 
+Define you schemas in `src/internal/models/` and then add the schema instance to `schema` defined on top in `db.go`.
+
+```go
+schemas := []interface{}{
+    &models.Post{},
+    //  other models
+}
+```
+
 Make sure postgres services are running and credentials mentioned in .env is setup.
 
 ## Up Next ⏭️

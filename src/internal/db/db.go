@@ -4,12 +4,18 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/Jerinji2016/grpc-template/src/internal/models"
 	"github.com/Jerinji2016/grpc-template/src/pkg/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
+
+var schemas = []interface{} {
+	&models.User{}, 
+	&models.Post{},
+}
 
 func InitDB() {
 	dns := fmt.Sprintf(
@@ -27,6 +33,10 @@ func InitDB() {
 		logger.FatalLog("Failed to connect to DB: %s", dns)
 	}
 	logger.InfoLog("Database connection initialized")
+
+	if err := DB.AutoMigrate(schemas...); err != nil {
+		logger.FatalLog("Failed to migrate Database: %v", err)
+	}
 }
 
 func CloseDB() {
