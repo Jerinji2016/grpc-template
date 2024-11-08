@@ -68,13 +68,16 @@ logger.WarnLog("Careful: %v", warning)
 
 ## Database 🗄️
 
-Database is implemented with [postgresql](https://www.postgresql.org/). Setup a local database with the credentials mentioned as per env sample.
+Database is implemented with [postgresql](https://www.postgresql.org/) with [gorm](https://gorm.io/).
 
-Start by installing the [pgx](https://pkg.go.dev/github.com/jackc/pgx/v5) dependency with:
+Start by installing the `gorm` & `postgres` as this [documentation](https://gorm.io/docs/connecting_to_the_database.html#PostgreSQL):
 
 ```sh
-go get github.com/jackc/pgx/v5
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/postgres
 ```
+
+Make sure postgres services are running and credentials mentioned in .env is setup.
 
 ## Up Next ⏭️
 

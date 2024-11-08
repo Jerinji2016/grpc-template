@@ -1,34 +1,39 @@
 package db
 
 import (
-	"context"
 	"fmt"
 	"os"
 
 	"github.com/Jerinji2016/grpc-template/src/pkg/logger"
-	"github.com/jackc/pgx/v5/pgxpool"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-var DB *pgxpool.Pool
+var DB *gorm.DB
 
 func InitDB() {
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUsername := os.Getenv("DB_USERNAME")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
-
-	conn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUsername, dbPassword, dbHost, dbPort, dbName)
+	dns := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_USERNAME"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+		os.Getenv("DB_PORT"),
+	)
 
 	var err error
-	DB, err = pgxpool.New(context.Background(), conn)
+	DB, err = gorm.Open(postgres.Open(dns), &gorm.Config{})
 	if err != nil {
-		logger.FatalLog("Failed to connect to DB: %s", conn)
+		logger.FatalLog("Failed to connect to DB: %s", dns)
 	}
 	logger.InfoLog("Database connection initialized")
 }
 
 func CloseDB() {
-	DB.Close()
+	db, err := DB.DB()
+	if err != nil {
+		logger.FatalLog("Failed to get DB")
+	}
+	db.Close()
 	logger.InfoLog("Database connection closed")
 }
