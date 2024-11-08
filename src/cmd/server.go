@@ -16,11 +16,11 @@ import (
 )
 
 func init() {
-	logger.InitLogger()
-
 	if err := godotenv.Load(); err != nil {
-		logger.FatalLog("No .env file found")
+		log.Fatalf("No .env file found")
 	}
+
+	logger.InitLogger()
 }
 
 func main() {
