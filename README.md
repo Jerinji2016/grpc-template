@@ -30,6 +30,9 @@ DB_PORT=5432
 DB_USERNAME=admin
 DB_PASSWORD=secret
 DB_NAME=grpc_sample
+
+LOG_OUTPUT_DIR=logs
+LOG_FILE_FORMAT=LOG_2006-01-02 15:04:05.log
 ```
 
 ## Authentication 🔑
@@ -47,6 +50,15 @@ Logger is implemented with [logrus](https://pkg.go.dev/github.com/sirupsen/logru
 ```sh
 go get github.com/sirupsen/logrus
 ```
+
+Logger is configured to add logs to a log file. This can be set to log to console by checking environment (*say log to console for development environment*)
+
+> **Logger Configuration**
+>
+> Set up logger configuration in .env file as follow
+> 
+> **LOG_OUTPUT_DIR**: log files will be created in this directory. (Optional)  
+> **LOG_FILE_FORMAT**: file name format. (Optional)
 
 Use logger with:
 
