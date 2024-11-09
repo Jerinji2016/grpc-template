@@ -12,30 +12,32 @@ import (
 var log = logrus.New()
 
 func InitLogger() {
-	file := getFile()
-
+	env := os.Getenv("ENVIRONMENT")
 	// changed formatter to TextFormatter for readability
 	// log.SetFormatter(&logrus.JSONFormatter{})
 	log.SetFormatter(
 		&logrus.TextFormatter{
-			ForceColors:     true,
 			FullTimestamp:   true,
 			TimestampFormat: "2006-01-02 15:04:05",
 		},
 	)
-
-	// enhance: can check for env and set output to os.Stdout
-	// log.SetOutput(os.Stdout)
-	log.SetOutput(
-		&lumberjack.Logger{
-			Filename:   file.Name(),
-			MaxSize:    5,    // megabytes
-			MaxBackups: 3,    // keep atmost 3 logs files
-			MaxAge:     30,   // days to retain
-			Compress:   true, // compress old log files
-		},
-	)
+	
 	log.SetLevel(logrus.DebugLevel)
+	log.SetOutput(os.Stdout)
+	
+	if env == "production" {
+		file := getFile()
+
+		log.SetOutput(
+			&lumberjack.Logger{
+				Filename:   file.Name(),
+				MaxSize:    5,    // megabytes
+				MaxBackups: 3,    // keep atmost 3 logs files
+				MaxAge:     30,   // days to retain
+				Compress:   true, // compress old log files
+			},
+		)
+	}
 }
 
 func createDir(dir string) {
@@ -49,14 +51,14 @@ func createDir(dir string) {
 
 func getFile() *os.File {
 	now := time.Now()
-	
+
 	logFileFormat := os.Getenv("LOG_FILE_FORMAT")
 	if logFileFormat == "" {
 		logFileFormat = "LOG_2006-01-02 15:04:05.log"
 	}
-	
+
 	filepath := now.Format(logFileFormat)
-	
+
 	dir := os.Getenv("LOG_OUTPUT_DIR")
 	if dir != "" {
 		createDir(dir)

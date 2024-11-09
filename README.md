@@ -35,6 +35,14 @@ LOG_OUTPUT_DIR=logs
 LOG_FILE_FORMAT=LOG_2006-01-02 15:04:05.log
 ```
 
+### Multiple enviroments
+
+> For multiple enviroments create file with name `.env.production` or `.env.development`, and make sure you pass the environment while running `src/cmd/server.go`.
+>
+> ```sh
+> ENVIRONMENT=production go run src/cmd/server.go
+> ```
+
 ## Authentication 🔑
 
 JWT is used authentication and is defined in `src/pkg/auth/jwt.go`. To start add jwt dependency with:

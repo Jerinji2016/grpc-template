@@ -16,8 +16,15 @@ import (
 )
 
 func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("No .env file found")
+	env := os.Getenv("ENVIRONMENT")
+
+	envFile := ".env"
+	if env != "" {
+		envFile = fmt.Sprintf(".env.%s", env)
+	}
+
+	if err := godotenv.Load(envFile); err != nil {
+		log.Fatalf("No %s file found", envFile)
 	}
 
 	logger.InitLogger()
