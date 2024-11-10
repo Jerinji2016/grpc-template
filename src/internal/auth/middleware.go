@@ -2,10 +2,11 @@ package auth
 
 import (
 	"context"
-	"log"
+	"slices"
 	"strings"
 
 	"github.com/Jerinji2016/grpc-template/src/pkg/logger"
+	"github.com/Jerinji2016/grpc-template/src/pkg/pb"
 	"github.com/golang-jwt/jwt/v4"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -35,7 +36,7 @@ func (a *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 	) (interface{}, error) {
 		logger.DebugLog("Received request for %s", info.FullMethod)
 
-		if a.isPublidMethod(info.FullMethod) {
+		if a.isPublicMethod(info.FullMethod) {
 			return handler(ctx, req)
 		}
 
@@ -50,10 +51,12 @@ func (a *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 	}
 }
 
-func (a *AuthInterceptor) isPublidMethod(fullMethod string) bool {
-	// FullMethod is in the format "/package.Service/Method"
-	log.Printf("full method %v", fullMethod)
-	return strings.HasPrefix(fullMethod, "/auth_api.AuthenticationService/Login")
+func (a *AuthInterceptor) isPublicMethod(fullMethod string) bool {
+	var publicMethods = []string{
+		pb.AuthenticationService_Login_FullMethodName,
+		pb.AuthenticationService_Register_FullMethodName,
+	}
+	return slices.Contains(publicMethods, fullMethod)
 }
 
 func (a *AuthInterceptor) authorize(ctx context.Context) (jwt.MapClaims, error) {

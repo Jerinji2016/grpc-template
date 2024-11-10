@@ -1,10 +1,11 @@
 package models
 
+import uuid "github.com/jackc/pgx/pgtype/ext/gofrs-uuid"
+
 type User struct {
-	ID       string `gorm:"primaryKey"`
+	ID       uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primaryKey"`
 	Name     string
-	Email    string `gorm:"unique"`
-	Username string
+	Username string `gorm:"unique"`
 	Password string
 	Posts    []Post `gorm:"foreignKey:UserID"`
 }

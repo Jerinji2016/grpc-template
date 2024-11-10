@@ -22,16 +22,15 @@ func NewPostServce() *PostService {
 
 func (s *PostService) CreatePost(ctx context.Context, req *pb.CreatePostRequest) (*pb.CreatePostResponse, error) {
 	post := &models.Post{
-		ID:        req.Post.Id,
 		Message:   req.Post.Message,
 		CreatedAt: req.Post.CreatedAt,
 	}
 
-	s.posts[post.ID] = post
+	s.posts[post.ID.UUID.String()] = post
 
 	return &pb.CreatePostResponse{
 		Post: &pb.Post{
-			Id:        post.ID,
+			Id:        post.ID.UUID.String(),
 			Message:   post.Message,
 			CreatedAt: post.CreatedAt,
 		},
@@ -46,7 +45,7 @@ func (s *PostService) GetPost(ctx context.Context, req *pb.GetPostRequest) (*pb.
 
     return &pb.GetPostResponse{
         Post: &pb.Post{
-            Id:        post.ID,
+            Id:        post.ID.UUID.String(),
             Message:   post.Message,
             CreatedAt: post.CreatedAt,
         },

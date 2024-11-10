@@ -64,7 +64,7 @@ Logger is configured to add logs to a log file. This can be set to log to consol
 > **Logger Configuration**
 >
 > Set up logger configuration in .env file as follow
-> 
+>
 > **LOG_OUTPUT_DIR**: log files will be created in this directory. (Optional)  
 > **LOG_FILE_FORMAT**: file name format. (Optional)
 
