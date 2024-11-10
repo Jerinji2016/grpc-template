@@ -51,6 +51,21 @@ JWT is used authentication and is defined in `src/pkg/auth/jwt.go`. To start add
 go get github.com/golang-jwt/jwt/v4
 ```
 
+To remove a rpc method from jwt check add the full method name that can be obtained from constant in generated code as follows in `isPublicMethod` `middleware.go`
+
+```go
+// ...
+
+func (a *AuthInterceptor) isPublicMethod(fullMethod string) bool {
+    var publicMethods = []string{
+        pb.AuthenticationService_Login_FullMethodName,
+        pb.AuthenticationService_Register_FullMethodName,
+        //  add other methods here
+    }
+    return slices.Contains(publicMethods, fullMethod)
+}
+```
+
 ## Logger 🪵
 
 Logger is implemented with [logrus](https://pkg.go.dev/github.com/sirupsen/logrus) package. To start add logrus dependency with:
