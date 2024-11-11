@@ -125,9 +125,4 @@ schemas := []interface{}{
 
 Make sure postgres services are running and credentials mentioned in .env is setup.
 
-## Up Next ⏭️
-
-- Connecting to DB
-- Working with DB
-- Working with streams
-- Handling proto buffers for multi repo projects
+***
