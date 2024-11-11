@@ -1,5 +1,9 @@
+# File generated in mac devices
 .DS_Store
+
+# Environment files
 .env
 .env.*
 
+# Log files
 logs
