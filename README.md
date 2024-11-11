@@ -2,6 +2,8 @@
 
 Template for gRPC backend project.
 
+This project was documented with [Obsidian](https://obsidian.md/), check out the [docs](https://github.com/Jerinji2016/grpc-template/tree/main/docs) for more
+
 ## Getting Started 🏁
 
 1. Clone project with
